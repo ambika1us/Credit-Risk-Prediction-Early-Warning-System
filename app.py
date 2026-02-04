@@ -4,9 +4,9 @@ import joblib
 import matplotlib.pyplot as plt
 import numpy as np
 
-# ----------------------------------
+
 # Page config
-# ----------------------------------
+
 st.set_page_config(
     page_title="Credit Risk Prediction System",
     layout="wide"
@@ -15,9 +15,9 @@ st.set_page_config(
 st.title("💳 Credit Risk Prediction – Early Warning System")
 st.markdown("Predict **default risk** for single or multiple loan records.")
 
-# ----------------------------------
+
 # Load model & schema
-# ----------------------------------
+
 @st.cache_resource
 def load_model():
     model = joblib.load("model/rf_model.pkl")
@@ -26,9 +26,9 @@ def load_model():
 
 model, feature_columns = load_model()
 
-# ----------------------------------
+
 # Helper functions
-# ----------------------------------
+
 def preprocess_input(df):
     # Drop forbidden / leakage columns
     forbidden_cols = [c for c in df.columns if c.startswith("loan_status")]
@@ -49,18 +49,18 @@ def classify_risk(prob):
     else:
         return "Low Risk"
 
-# ----------------------------------
+
 # Sidebar – mode selection
-# ----------------------------------
+
 st.sidebar.header("⚙️ Prediction Mode")
 mode = st.sidebar.radio(
     "Choose mode:",
     ["Single Record", "Batch Upload"]
 )
 
-# ==================================
+
 # SINGLE RECORD MODE
-# ==================================
+
 if mode == "Single Record":
 
     st.subheader("🔍 Single Record Risk Assessment")
@@ -107,9 +107,9 @@ if mode == "Single Record":
         st.metric("Default Probability", f"{prob:.2%}")
         st.success(f"Risk Category: **{classify_risk(prob)}**")
 
-# ==================================
+
 # BATCH MODE
-# ==================================
+
 else:
 
     st.subheader("📂 Batch Risk Assessment (CSV Upload)")
@@ -143,9 +143,9 @@ else:
             "text/csv"
         )
 
-        # ===============================
+
         # Portfolio Risk Distribution Dashboard
-        # ===============================
+
         st.subheader("📊 Portfolio Risk Distribution Dashboard")
 
         # KPI Metrics
@@ -199,8 +199,8 @@ else:
         summary_df = pd.DataFrame(summary)
         st.dataframe(summary_df)
 
-# ----------------------------------
+
 # Footer
-# ----------------------------------
+
 st.markdown("---")
 st.caption("Early Warning Credit Risk System | ML + Explainable AI")
